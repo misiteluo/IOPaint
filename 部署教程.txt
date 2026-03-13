@@ -1,0 +1,19 @@
+conda create -n iopaint python=3.10 -y
+conda activate iopaint
+
+conda install pytorch torchvision -c pytorch -y
+pip install --upgrade pip
+pip install -r requirements.txt
+
+cd web_app
+npm install
+npm run build
+cp -r dist/ ../iopaint/web_app
+cd ../
+
+pip install -U rembg onnxruntime realesrgan gfpgan
+
+./start.sh
+脚本文件会将模型下载到~/Downloads/AI-Models/IOPaint-Models；可修改 --realesrgan-model 为 RealESRGAN_x4plus ，超分辨率更真实
+
+也可使用 ./start_with_sd.sh ，会使用 runwayml/stable-diffusion-inpainting 模型，支持局部重绘
